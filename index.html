@@ -52,9 +52,16 @@
     }
 
     .nav-logo {
+      display: flex; align-items: center; gap: 10px;
       text-decoration: none; color: var(--fg);
       font-size: 15px; font-weight: 600;
       letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .nav-logo .nav-portrait {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--border);
     }
 
     .nav-links {
@@ -629,7 +636,7 @@
 
 <!-- ── NAVIGATION ── -->
 <nav id="nav">
-  <a href="#" class="nav-logo">Dylan Curcio</a>
+  <a href="#" class="nav-logo"><img src="photos/portrait.JPG" alt="Dylan Curcio" class="nav-portrait">Dylan Curcio</a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#portfolio">Portfolio</a></li>
     <li><a href="#about">About</a></li>
