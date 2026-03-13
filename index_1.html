@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dylan Curcio — Photography</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #fafafa;
+      --bg-white: #ffffff;
+      --fg: #1a1a1a;
+      --muted: #737373;
+      --muted-light: #a3a3a3;
+      --border: #e5e5e5;
+      --border-light: #f0f0f0;
+      --accent: #1a1a1a;
+      --accent-hover: #404040;
+      --red: #dc2626;
+      --blue: #2563eb;
+      --section-gap: 120px;
+      --side-pad: 64px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── NAVIGATION ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 var(--side-pad);
+      height: 72px;
+      background: rgba(250,250,250,0.88);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    nav.scrolled {
+      border-color: var(--border);
+      background: rgba(250,250,250,0.95);
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--fg);
+      font-size: 15px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .nav-logo .nav-portrait {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--border);
+    }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 6px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none; color: var(--muted);
+      font-size: 13px; font-weight: 400;
+      letter-spacing: 0.03em;
+      padding: 8px 16px; border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--fg);
+      background: rgba(0,0,0,0.04);
+    }
+
+    .nav-social {
+      display: flex; align-items: center; gap: 4px;
+    }
+    .nav-social a {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 8px;
+      color: var(--muted); text-decoration: none;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-social a:hover { color: var(--fg); background: rgba(0,0,0,0.04); }
+
+    /* Mobile menu */
+    .nav-toggle {
+      display: none; background: none; border: none;
+      color: var(--fg); cursor: pointer; padding: 8px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 72px var(--side-pad) 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        url('photos/hero.jpg')
+        center/cover no-repeat;
+      filter: brightness(0.55);
+      transition: opacity 1s;
+    }
+
+    .hero-content {
+      position: relative; z-index: 1;
+      max-width: 700px;
+      opacity: 0; animation: heroIn 1s ease forwards 0.2s;
+    }
+
+    .hero-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(42px, 7vw, 80px);
+      font-weight: 400;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .hero-tagline {
+      font-size: clamp(14px, 2vw, 18px);
+      font-weight: 300;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      text-decoration: none;
+      color: #ffffff;
+      font-size: 13px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 14px 36px;
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 40px;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .hero-cta:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.6);
+    }
+
+    .hero-scroll {
+      position: absolute; bottom: 36px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      animation: bounce 2s infinite;
+    }
+    .hero-scroll svg { opacity: 0.5; }
+
+    @keyframes heroIn {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ── SECTION COMMON ── */
+    .section {
+      padding: var(--section-gap) var(--side-pad);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .section-label {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted-light);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      color: var(--fg);
+    }
+
+    /* ── PORTFOLIO GALLERY ── */
+    #portfolio { background: var(--bg-white); }
+
+    .gallery-controls {
+      display: flex; justify-content: center; gap: 8px;
+      margin-bottom: 48px; flex-wrap: wrap;
+    }
+    .gallery-controls button {
+      background: none; border: 1px solid var(--border);
+      color: var(--muted); font-family: inherit;
+      font-size: 12px; font-weight: 500;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      padding: 8px 20px; border-radius: 30px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .gallery-controls button:hover,
+    .gallery-controls button.active {
+      color: var(--fg);
+      border-color: var(--fg);
+      background: var(--fg);
+      color: #fff;
+    }
+
+    .gallery {
+      columns: 3; column-gap: 12px;
+      max-width: 1400px; margin: 0 auto;
+    }
+
+    .photo-item {
+      break-inside: avoid;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+      cursor: pointer;
+      user-select: none;
+      transition: opacity 0.2s;
+    }
+    .photo-item[draggable="true"] { cursor: grab; }
+    .photo-item:active[draggable="true"] { cursor: grabbing; }
+    .photo-item.dragging { opacity: 0.35; }
+
+    .photo-item.drag-over-top::before,
+    .photo-item.drag-over-bottom::after {
+      content: '';
+      display: block;
+      height: 3px;
+      background: var(--blue);
+      border-radius: 2px;
+      margin: 4px 0;
+    }
+
+    .photo-item img {
+      width: 100%; display: block;
+      pointer-events: none;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  filter 0.6s;
+    }
+
+    .photo-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(transparent 40%, rgba(0,0,0,0.55));
+      opacity: 0;
+      transition: opacity 0.4s;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      padding: 24px 20px;
+    }
+    .photo-item:hover .photo-overlay { opacity: 1; }
+    .photo-item:hover img { transform: scale(1.04); }
+
+    .photo-overlay-title {
+      color: #fff; font-size: 14px; font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+    .photo-overlay-cat {
+      color: rgba(255,255,255,0.65); font-size: 11px; font-weight: 400;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+
+    /* ── ABOUT ── */
+    #about { background: var(--bg); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      max-width: 1100px; margin: 0 auto;
+      align-items: center;
+    }
+
+    .about-image-wrap {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+    .about-image-wrap img {
+      width: 100%; display: block;
+      border-radius: 8px;
+      object-fit: cover;
+      transform: scale(1.25);
+    }
+
+
+    .about-text h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 32px; font-weight: 400;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+    .about-text p {
+      color: var(--muted); font-size: 15px;
+      line-height: 1.85; margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+    .about-text .signature {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-size: 22px; color: var(--fg);
+      margin-top: 28px;
+    }
+
+    /* ── KIT ── */
+    .kit-list {
+      max-width: 520px; margin: 0 auto;
+      list-style: none; padding: 0;
+    }
+    .kit-list li {
+      display: flex; align-items: center; gap: 14px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 15px; color: var(--fg);
+      letter-spacing: -0.01em;
+    }
+    .kit-list li:last-child { border-bottom: none; }
+    .kit-list .kit-icon {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg);
+      border-radius: 10px;
+      color: var(--muted);
+    }
+    .kit-list .kit-label { font-weight: 400; }
+    .kit-list .kit-type {
+      margin-left: auto;
+      font-size: 12px; font-weight: 500;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--muted-light);
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--bg-white); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      max-width: 1000px; margin: 0 auto;
+    }
+
+    .contact-info h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 28px; font-weight: 400;
+      margin-bottom: 20px;
+    }
+    .contact-info p {
+      color: var(--muted); font-size: 15px;
+      line-height: 1.8; margin-bottom: 32px;
+    }
+
+    .contact-links { display: flex; flex-direction: column; gap: 14px; }
+    .contact-link {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none; color: var(--fg);
+      font-size: 14px; font-weight: 400;
+      transition: color 0.2s;
+    }
+    .contact-link:hover { color: var(--muted); }
+    .contact-link svg { flex-shrink: 0; color: var(--muted); }
+
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%; background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--fg); font-family: inherit;
+      font-size: 14px; padding: 14px 16px;
+      border-radius: 10px; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      resize: vertical;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(26,26,26,0.08);
+    }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: var(--muted-light);
+    }
+    .contact-form textarea { min-height: 130px; }
+    .contact-submit {
+      align-self: flex-start;
+      background: var(--accent); color: #fff; border: none;
+      font-family: inherit; font-size: 13px; font-weight: 500;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      padding: 14px 36px; border-radius: 10px;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .contact-submit:hover { background: var(--accent-hover); }
+    .contact-status {
+      font-size: 13px; font-weight: 500;
+      letter-spacing: 0.01em;
+      min-height: 20px;
+      transition: opacity 0.3s;
+    }
+    .contact-status.success { color: #16a34a; }
+    .contact-status.error { color: var(--red); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px var(--side-pad);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 20px;
+    }
+    .footer-copy {
+      color: var(--muted); font-size: 12px;
+      letter-spacing: 0.02em;
+    }
+    .footer-links {
+      display: flex; gap: 24px; list-style: none;
+    }
+    .footer-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 12px; letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--fg); }
+    .footer-social {
+      display: flex; gap: 8px;
+    }
+    .footer-social a {
+      display: flex; align-items: center; justify-content: center;
+      width: 34px; height: 34px; border-radius: 50%;
+      color: var(--muted); text-decoration: none;
+      border: 1px solid var(--border);
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .footer-social a:hover {
+      color: var(--fg); border-color: var(--fg);
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.94);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .lightbox.open { opacity: 1; pointer-events: all; }
+    .lightbox img {
+      max-width: 90vw; max-height: 90vh;
+      object-fit: contain; border-radius: 4px;
+    }
+    .lightbox-close {
+      position: absolute; top: 24px; right: 28px;
+      background: rgba(255,255,255,0.1); border: none; color: #fff;
+      width: 40px; height: 40px; border-radius: 50%;
+      font-size: 22px; font-weight: 300;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+    .lightbox-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.1); border: none; color: #fff;
+      width: 48px; height: 48px; border-radius: 50%;
+      font-size: 20px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .lightbox-nav:hover { background: rgba(255,255,255,0.2); }
+    .lightbox-prev { left: 24px; }
+    .lightbox-next { right: 24px; }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1; transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      :root { --side-pad: 40px; --section-gap: 80px; }
+      .gallery { columns: 2; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+    @media (max-width: 640px) {
+      :root { --side-pad: 20px; --section-gap: 64px; }
+
+      nav { padding: 0 20px; height: 64px; }
+      .nav-links {
+        display: none;
+        position: fixed; top: 64px; left: 0; right: 0;
+        background: rgba(250,250,250,0.97);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        padding: 20px;
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 14px 16px; font-size: 15px; }
+      .nav-social { display: none; }
+      .nav-toggle { display: block; }
+
+      .gallery { columns: 1; }
+      .hero-name { font-size: 38px; }
+
+      footer {
+        flex-direction: column; align-items: flex-start;
+        padding: 32px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ── -->
+<nav id="nav">
+  <a href="#" class="nav-logo"><img src="photos/portrait.JPG" alt="Dylan Curcio" class="nav-portrait">Dylan Curcio</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#kit">Kit</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-social">
+    <a href="https://www.threads.com/@dyl_curcio?hl=en" target="_blank" rel="noopener" title="Threads">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.59 12c.025 3.086.718 5.496 2.057 7.164 1.432 1.784 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.187.408-2.26 1.33-3.017.88-.724 2.104-1.138 3.542-1.199 1.036-.044 1.998.048 2.888.27-.096-.84-.358-1.477-.793-1.907-.53-.525-1.327-.79-2.374-.79h-.06c-.777.013-1.49.202-2.12.563l-.932-1.67c.87-.499 1.9-.78 3.065-.8h.087c1.58 0 2.84.47 3.742 1.398.718.74 1.176 1.725 1.37 2.93.576.204 1.1.46 1.573.775 1.206.803 2.072 1.907 2.504 3.193.726 2.16.407 4.88-1.37 6.622-1.87 1.833-4.162 2.636-7.417 2.66zM14.833 13.04c-.706-.3-1.533-.465-2.47-.425-1.005.044-1.834.303-2.394.748-.473.377-.684.867-.654 1.417.039.73.48 1.79 2.56 1.79.082 0 .166-.003.252-.008 1.08-.058 1.907-.46 2.457-1.143.386-.48.665-1.136.817-1.95-.185-.152-.371-.296-.568-.43z"/></svg>
+    </a>
+    <a href="https://youtube.com" target="_blank" rel="noopener" title="YouTube">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+    </a>
+  </div>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <h1 class="hero-name">Dylan Curcio</h1>
+    <p class="hero-tagline">Travel Photography</p>
+    <a href="#portfolio" class="hero-cta">View Portfolio</a>
+  </div>
+  <div class="hero-scroll">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
+
+<!-- ── PORTFOLIO ── -->
+<section class="section" id="portfolio">
+  <div class="section-header fade-in">
+    <h2 class="section-title">Portfolio</h2>
+  </div>
+
+  <div class="gallery" id="gallery">
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF5554.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF5466-Enhanced-NR-2.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF5219.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF5119.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF5145.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF5035.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF4969.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF4610.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF4547.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF4465.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF4387.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF3978.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF3977.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF3973.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF3564.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF3035.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF2944.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF2924.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/DSCF2323.jpg" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+    <div class="photo-item" data-title="" data-category="photography">
+      <img src="photos/4x5.JPG" alt=""/>
+      <div class="photo-overlay">
+        <span class="photo-overlay-title"></span>
+        <span class="photo-overlay-cat">Photography</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ── ABOUT ── -->
+<section class="section" id="about">
+  <div class="section-header fade-in">
+    <h2 class="section-title">About Me</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-image-wrap fade-in">
+      <img id="aboutImage" src="photos/portrait.JPG" alt="Dylan Curcio"/>
+    </div>
+    <div class="about-text fade-in">
+      <p>New Jersey based photographer.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── KIT ── -->
+<section class="section" id="kit">
+  <div class="section-header fade-in">
+    <p class="section-label">Gear</p>
+    <h2 class="section-title">Photography Kit</h2>
+  </div>
+  <ul class="kit-list fade-in">
+    <li>
+      <span class="kit-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg></span>
+      <span class="kit-label">Fujifilm X-T3</span>
+      <span class="kit-type">Body</span>
+    </li>
+    <li>
+      <span class="kit-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+      <span class="kit-label">Fujifilm 18-55mm f/2.8-4</span>
+      <span class="kit-type">Lens</span>
+    </li>
+    <li>
+      <span class="kit-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+      <span class="kit-label">Fujifilm 33mm f/1.4</span>
+      <span class="kit-type">Lens</span>
+    </li>
+    <li>
+      <span class="kit-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+      <span class="kit-label">Fujifilm 23mm f/2</span>
+      <span class="kit-type">Lens</span>
+    </li>
+  </ul>
+</section>
+
+<!-- ── CONTACT ── -->
+<section class="section" id="contact">
+  <div class="section-header fade-in">
+    <p class="section-label">Contact</p>
+    <h2 class="section-title">Get in Touch</h2>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info fade-in">
+      <p>
+        Drop me a message and I'll get back to you as soon as I can.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:dylancrcio68@gmail.com" class="contact-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+          dylancrcio68@gmail.com
+        </a>
+        <a href="https://www.threads.com/@dyl_curcio?hl=en" target="_blank" rel="noopener" class="contact-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.59 12c.025 3.086.718 5.496 2.057 7.164 1.432 1.784 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.187.408-2.26 1.33-3.017.88-.724 2.104-1.138 3.542-1.199 1.036-.044 1.998.048 2.888.27-.096-.84-.358-1.477-.793-1.907-.53-.525-1.327-.79-2.374-.79h-.06c-.777.013-1.49.202-2.12.563l-.932-1.67c.87-.499 1.9-.78 3.065-.8h.087c1.58 0 2.84.47 3.742 1.398.718.74 1.176 1.725 1.37 2.93.576.204 1.1.46 1.573.775 1.206.803 2.072 1.907 2.504 3.193.726 2.16.407 4.88-1.37 6.622-1.87 1.833-4.162 2.636-7.417 2.66zM14.833 13.04c-.706-.3-1.533-.465-2.47-.425-1.005.044-1.834.303-2.394.748-.473.377-.684.867-.654 1.417.039.73.48 1.79 2.56 1.79.082 0 .166-.003.252-.008 1.08-.058 1.907-.46 2.457-1.143.386-.48.665-1.136.817-1.95-.185-.152-.371-.296-.568-.43z"/></svg>
+          @dyl_curcio
+        </a>
+        <a href="https://youtube.com" target="_blank" rel="noopener" class="contact-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+          YouTube
+        </a>
+      </div>
+    </div>
+    <form class="contact-form fade-in" id="contactForm">
+      <input type="hidden" name="access_key" value="cd897124-de06-416b-8e44-0594be38ff83"/>
+      <input type="hidden" name="subject" value="New message from your photography site"/>
+      <input type="hidden" name="from_name" value="Photography Portfolio"/>
+      <input type="checkbox" name="botcheck" style="display:none"/>
+      <input type="text" name="name" placeholder="Your name" required/>
+      <input type="email" name="email" placeholder="Your email" required/>
+      <input type="text" name="topic" placeholder="Subject"/>
+      <textarea name="message" placeholder="Your message..." required></textarea>
+      <button type="submit" class="contact-submit">Send Message</button>
+      <p class="contact-status" id="contactStatus"></p>
+    </form>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <span class="footer-copy">&copy; 2026 Dylan Curcio. All rights reserved.</span>
+  <ul class="footer-links">
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#kit">Kit</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="footer-social">
+    <a href="https://www.threads.com/@dyl_curcio?hl=en" target="_blank" rel="noopener" title="Threads">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.59 12c.025 3.086.718 5.496 2.057 7.164 1.432 1.784 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.187.408-2.26 1.33-3.017.88-.724 2.104-1.138 3.542-1.199 1.036-.044 1.998.048 2.888.27-.096-.84-.358-1.477-.793-1.907-.53-.525-1.327-.79-2.374-.79h-.06c-.777.013-1.49.202-2.12.563l-.932-1.67c.87-.499 1.9-.78 3.065-.8h.087c1.58 0 2.84.47 3.742 1.398.718.74 1.176 1.725 1.37 2.93.576.204 1.1.46 1.573.775 1.206.803 2.072 1.907 2.504 3.193.726 2.16.407 4.88-1.37 6.622-1.87 1.833-4.162 2.636-7.417 2.66zM14.833 13.04c-.706-.3-1.533-.465-2.47-.425-1.005.044-1.834.303-2.394.748-.473.377-.684.867-.654 1.417.039.73.48 1.79 2.56 1.79.082 0 .166-.003.252-.008 1.08-.058 1.907-.46 2.457-1.143.386-.48.665-1.136.817-1.95-.185-.152-.371-.296-.568-.43z"/></svg>
+    </a>
+    <a href="https://youtube.com" target="_blank" rel="noopener" title="YouTube">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+    </a>
+  </div>
+</footer>
+
+<!-- ── LIGHTBOX ── -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">×</button>
+  <button class="lightbox-nav lightbox-prev" id="lightboxPrev">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button class="lightbox-nav lightbox-next" id="lightboxNext">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+  <img id="lightboxImg" src="" alt=""/>
+</div>
+
+<script>
+(() => {
+  // ── Nav scroll effect & active link ──
+  const nav = document.getElementById('nav');
+  const sections = document.querySelectorAll('section[id]');
+  const navLinksAll = document.querySelectorAll('.nav-links a[href^="#"]');
+
+  function updateNav() {
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+
+    // Active section
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 200) current = s.id;
+    });
+    navLinksAll.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', updateNav, { passive: true });
+
+  // Mobile menu
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.addEventListener('click', e => {
+    if (e.target.tagName === 'A') navLinks.classList.remove('open');
+  });
+
+  // ── Scroll fade-in ──
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const fadeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); fadeObserver.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  fadeEls.forEach(el => fadeObserver.observe(el));
+
+  // ── Gallery ──
+  const gallery = document.getElementById('gallery');
+
+  // ── Lightbox ──
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  let lightboxIndex = 0;
+
+  function getItems() { return Array.from(gallery.querySelectorAll('.photo-item')); }
+
+  function bindLightbox(item) {
+    item.addEventListener('click', e => {
+      const items = getItems();
+      lightboxIndex = items.indexOf(item);
+      lightboxImg.src = item.querySelector('img').src;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+  gallery.querySelectorAll('.photo-item').forEach(bindLightbox);
+
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+
+  document.getElementById('lightboxPrev').addEventListener('click', e => {
+    e.stopPropagation();
+    const items = getItems();
+    lightboxIndex = (lightboxIndex - 1 + items.length) % items.length;
+    lightboxImg.src = items[lightboxIndex].querySelector('img').src;
+  });
+  document.getElementById('lightboxNext').addEventListener('click', e => {
+    e.stopPropagation();
+    const items = getItems();
+    lightboxIndex = (lightboxIndex + 1) % items.length;
+    lightboxImg.src = items[lightboxIndex].querySelector('img').src;
+  });
+
+  document.addEventListener('keydown', e => {
+    if (lightbox.classList.contains('open')) {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') document.getElementById('lightboxPrev').click();
+      if (e.key === 'ArrowRight') document.getElementById('lightboxNext').click();
+    }
+  });
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // ── Contact form (Web3Forms) ──
+  const contactForm = document.getElementById('contactForm');
+  const contactStatus = document.getElementById('contactStatus');
+
+  contactForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = contactForm.querySelector('.contact-submit');
+    const origText = btn.textContent;
+
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    btn.style.opacity = '0.6';
+    contactStatus.textContent = '';
+    contactStatus.className = 'contact-status';
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(contactForm)))
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        btn.textContent = 'Sent!';
+        btn.style.background = '#16a34a';
+        btn.style.opacity = '1';
+        contactStatus.textContent = 'Message delivered — I\'ll get back to you soon.';
+        contactStatus.className = 'contact-status success';
+        contactForm.reset();
+        setTimeout(() => {
+          btn.textContent = origText;
+          btn.style.background = '';
+          btn.disabled = false;
+          contactStatus.textContent = '';
+        }, 4000);
+      } else {
+        throw new Error(data.message || 'Something went wrong');
+      }
+    } catch (err) {
+      btn.textContent = origText;
+      btn.style.background = '';
+      btn.style.opacity = '1';
+      btn.disabled = false;
+      contactStatus.textContent = 'Failed to send — please try again or email me directly.';
+      contactStatus.className = 'contact-status error';
+    }
+  });
+
+  // Init
+  updateNav();
+})();
+</script>
+</body>
+</html>
