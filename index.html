@@ -480,6 +480,14 @@
       cursor: pointer; transition: background 0.2s;
     }
     .contact-submit:hover { background: var(--accent-hover); }
+    .contact-status {
+      font-size: 13px; font-weight: 500;
+      letter-spacing: 0.01em;
+      min-height: 20px;
+      transition: opacity 0.3s;
+    }
+    .contact-status.success { color: #16a34a; }
+    .contact-status.error { color: var(--red); }
 
     /* ── FOOTER ── */
     footer {
@@ -973,11 +981,16 @@
       </div>
     </div>
     <form class="contact-form fade-in" id="contactForm">
+      <input type="hidden" name="access_key" value="cd897124-de06-416b-8e44-0594be38ff83"/>
+      <input type="hidden" name="subject" value="New message from your photography site"/>
+      <input type="hidden" name="from_name" value="Photography Portfolio"/>
+      <input type="checkbox" name="botcheck" style="display:none"/>
       <input type="text" name="name" placeholder="Your name" required/>
       <input type="email" name="email" placeholder="Your email" required/>
-      <input type="text" name="subject" placeholder="Subject"/>
+      <input type="text" name="topic" placeholder="Subject"/>
       <textarea name="message" placeholder="Your message..." required></textarea>
       <button type="submit" class="contact-submit">Send Message</button>
+      <p class="contact-status" id="contactStatus"></p>
     </form>
   </div>
 </section>
@@ -1280,17 +1293,53 @@
     document.body.style.overflow = '';
   }
 
-  // ── Contact form ──
-  document.getElementById('contactForm').addEventListener('submit', e => {
+  // ── Contact form (Web3Forms) ──
+  const contactForm = document.getElementById('contactForm');
+  const contactStatus = document.getElementById('contactStatus');
+
+  contactForm.addEventListener('submit', async e => {
     e.preventDefault();
-    const btn = e.target.querySelector('.contact-submit');
-    btn.textContent = 'Sent!';
-    btn.style.background = '#16a34a';
-    setTimeout(() => {
-      btn.textContent = 'Send Message';
+    const btn = contactForm.querySelector('.contact-submit');
+    const origText = btn.textContent;
+
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    btn.style.opacity = '0.6';
+    contactStatus.textContent = '';
+    contactStatus.className = 'contact-status';
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(contactForm)))
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        btn.textContent = 'Sent!';
+        btn.style.background = '#16a34a';
+        btn.style.opacity = '1';
+        contactStatus.textContent = 'Message delivered — I\'ll get back to you soon.';
+        contactStatus.className = 'contact-status success';
+        contactForm.reset();
+        setTimeout(() => {
+          btn.textContent = origText;
+          btn.style.background = '';
+          btn.disabled = false;
+          contactStatus.textContent = '';
+        }, 4000);
+      } else {
+        throw new Error(data.message || 'Something went wrong');
+      }
+    } catch (err) {
+      btn.textContent = origText;
       btn.style.background = '';
-      e.target.reset();
-    }, 2000);
+      btn.style.opacity = '1';
+      btn.disabled = false;
+      contactStatus.textContent = 'Failed to send — please try again or email me directly.';
+      contactStatus.className = 'contact-status error';
+    }
   });
 
   // Init
