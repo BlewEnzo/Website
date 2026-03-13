@@ -280,57 +280,6 @@
       margin-top: 4px;
     }
 
-    .delete-btn {
-      position: absolute; top: 10px; right: 10px;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(8px); border: none;
-      color: var(--fg); width: 28px; height: 28px;
-      border-radius: 50%; font-size: 16px; font-weight: 300;
-      cursor: pointer; line-height: 1;
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; transition: opacity 0.2s, background 0.15s, color 0.15s;
-      z-index: 2;
-    }
-    .photo-item:hover .delete-btn { opacity: 1; }
-    .delete-btn:hover { background: var(--red); color: white; }
-
-    .drag-hint {
-      position: absolute; bottom: 10px; right: 10px;
-      background: rgba(255,255,255,0.9); backdrop-filter: blur(6px);
-      border-radius: 5px; padding: 3px 8px;
-      font-size: 9px; font-weight: 500; color: var(--muted);
-      letter-spacing: 0.04em; text-transform: uppercase;
-      opacity: 0; transition: opacity 0.2s; pointer-events: none;
-      z-index: 2;
-    }
-    .photo-item:hover .drag-hint { opacity: 0.7; }
-
-    /* ── UPLOAD ZONE ── */
-    .upload-zone {
-      max-width: 1400px; margin: 48px auto 0;
-      border: 1.5px dashed var(--border);
-      border-radius: 16px;
-      padding: 56px 32px;
-      text-align: center;
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .upload-zone.drag-over {
-      border-color: var(--blue);
-      background: rgba(37,99,235,0.03);
-    }
-    .upload-zone p {
-      color: var(--muted); font-size: 14px;
-      line-height: 1.7; margin-bottom: 20px;
-    }
-    .upload-btn {
-      background: var(--accent); color: #fff; border: none;
-      font-family: inherit; font-size: 13px; font-weight: 500;
-      letter-spacing: 0.03em;
-      padding: 12px 28px; border-radius: 10px;
-      cursor: pointer; transition: background 0.2s;
-    }
-    .upload-btn:hover { background: var(--accent-hover); }
-    #fileInput { display: none; }
 
     /* ── ABOUT ── */
     #about { background: var(--bg); }
@@ -355,23 +304,6 @@
       transform: scale(1.25);
     }
 
-    /* Avatar upload overlay */
-    .about-image-upload {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(0,0,0,0.4);
-      opacity: 0; transition: opacity 0.3s;
-      cursor: pointer; border-radius: 8px;
-    }
-    .about-image-wrap:hover .about-image-upload { opacity: 1; }
-    .about-image-upload span {
-      color: #fff; font-size: 13px; font-weight: 500;
-      letter-spacing: 0.05em; text-transform: uppercase;
-      padding: 10px 20px;
-      border: 1px solid rgba(255,255,255,0.5);
-      border-radius: 8px;
-    }
-    #aboutImageInput { display: none; }
 
     .about-text h3 {
       font-family: 'Playfair Display', Georgia, serif;
@@ -523,73 +455,6 @@
       color: var(--fg); border-color: var(--fg);
     }
 
-    /* ── MODAL ── */
-    .modal-backdrop {
-      position: fixed; inset: 0; z-index: 300;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(4px);
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none; transition: opacity 0.25s;
-    }
-    .modal-backdrop.open { opacity: 1; pointer-events: all; }
-    .modal {
-      background: var(--bg-white); padding: 36px;
-      width: 440px; max-width: 92vw;
-      border-radius: 18px;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.18);
-      transform: scale(0.96) translateY(10px);
-      transition: transform 0.25s;
-    }
-    .modal-backdrop.open .modal {
-      transform: scale(1) translateY(0);
-    }
-    .modal h2 {
-      font-size: 18px; font-weight: 600;
-      letter-spacing: -0.025em; margin-bottom: 4px;
-    }
-    .queue-info {
-      color: var(--muted); font-size: 13px;
-      margin-bottom: 18px; min-height: 16px;
-    }
-    .modal-preview {
-      width: 100%; max-height: 220px; object-fit: cover;
-      border-radius: 10px; margin-bottom: 20px; display: none;
-    }
-    .modal-preview.visible { display: block; }
-    .field { margin-bottom: 14px; }
-    .field label {
-      display: block; font-size: 12px; font-weight: 500;
-      color: var(--muted); margin-bottom: 6px;
-      letter-spacing: 0.02em;
-    }
-    .field input {
-      width: 100%; background: var(--bg);
-      border: 1px solid var(--border);
-      color: var(--fg); font-family: inherit;
-      font-size: 14px; padding: 12px 14px; border-radius: 10px;
-      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .field input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(26,26,26,0.08);
-    }
-    .modal-actions { display: flex; gap: 10px; margin-top: 22px; }
-    .btn-primary {
-      flex: 1; background: var(--accent); color: #fff; border: none;
-      font-family: inherit; font-size: 14px; font-weight: 500;
-      padding: 12px; border-radius: 10px;
-      cursor: pointer; transition: background 0.2s;
-    }
-    .btn-primary:hover { background: var(--accent-hover); }
-    .btn-secondary {
-      background: var(--bg); color: var(--fg);
-      border: 1px solid var(--border);
-      font-family: inherit; font-size: 14px; font-weight: 400;
-      padding: 12px 22px; border-radius: 10px;
-      cursor: pointer; transition: background 0.2s, border-color 0.2s;
-    }
-    .btn-secondary:hover { background: var(--border-light); }
-
     /* ── LIGHTBOX ── */
     .lightbox {
       position: fixed; inset: 0; z-index: 200;
@@ -679,7 +544,6 @@
     <li><a href="#about">About</a></li>
     <li><a href="#kit">Kit</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#" id="uploadNavBtn" style="cursor:pointer">Add Photos</a></li>
   </ul>
   <div class="nav-social">
     <a href="https://www.threads.com/@dyl_curcio?hl=en" target="_blank" rel="noopener" title="Threads">
@@ -720,8 +584,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/DSCF5466-Enhanced-NR-2.jpg" alt=""/>
@@ -729,8 +591,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/DSCF5219.jpg" alt=""/>
@@ -738,8 +598,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/DSCF5119.jpg" alt=""/>
@@ -747,8 +605,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/DSCF5145.jpg" alt=""/>
@@ -756,8 +612,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/DSCF5035.jpg" alt=""/>
@@ -765,8 +619,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/DSCF4969.jpg" alt=""/>
@@ -774,8 +626,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/DSCF4610.jpg" alt=""/>
@@ -783,8 +633,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/DSCF4547.jpg" alt=""/>
@@ -792,8 +640,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/DSCF4465.jpg" alt=""/>
@@ -801,8 +647,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/DSCF4387.jpg" alt=""/>
@@ -810,8 +654,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/DSCF3978.jpg" alt=""/>
@@ -819,8 +661,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/DSCF3977.jpg" alt=""/>
@@ -828,8 +668,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/DSCF3973.jpg" alt=""/>
@@ -837,8 +675,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/DSCF3564.jpg" alt=""/>
@@ -846,8 +682,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/DSCF3035.jpg" alt=""/>
@@ -855,8 +689,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/DSCF2944.jpg" alt=""/>
@@ -864,8 +696,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/DSCF2924.jpg" alt=""/>
@@ -873,8 +703,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/DSCF2323.jpg" alt=""/>
@@ -882,8 +710,6 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
     <div class="photo-item" data-title="" data-category="photography">
       <img src="photos/4x5.JPG" alt=""/>
@@ -891,18 +717,9 @@
         <span class="photo-overlay-title"></span>
         <span class="photo-overlay-cat">Photography</span>
       </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>
     </div>
   </div>
 
-  <!-- Upload Zone -->
-  <div class="upload-zone" id="upload-section">
-    <p>Drag & drop images here, or click to browse<br/>
-    <span style="font-size:12px;color:var(--muted-light)">JPG · PNG · WEBP · Multiple at once</span></p>
-    <button class="upload-btn" id="browseBtn">Choose Photos</button>
-    <input type="file" id="fileInput" accept="image/*" multiple/>
-  </div>
 </section>
 
 <!-- ── ABOUT ── -->
@@ -913,10 +730,6 @@
   <div class="about-grid">
     <div class="about-image-wrap fade-in">
       <img id="aboutImage" src="photos/portrait.JPG" alt="Dylan Curcio"/>
-      <div class="about-image-upload" id="aboutImageUpload">
-        <span>Change Photo</span>
-      </div>
-      <input type="file" id="aboutImageInput" accept="image/*"/>
     </div>
     <div class="about-text fade-in">
       <p>New Jersey based photographer.</p>
@@ -1014,27 +827,6 @@
   </div>
 </footer>
 
-<!-- ── UPLOAD MODAL ── -->
-<div class="modal-backdrop" id="uploadModal">
-  <div class="modal">
-    <h2>Add Photo</h2>
-    <div class="queue-info" id="queueInfo"></div>
-    <img class="modal-preview" id="modalPreview" alt=""/>
-    <div class="field">
-      <label>Title (optional)</label>
-      <input type="text" id="photoTitle" placeholder="e.g. Mountain Sunrise"/>
-    </div>
-    <div class="field">
-      <label>Category (optional)</label>
-      <input type="text" id="photoCategory" placeholder="e.g. Landscape, Urban, Portrait"/>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-secondary" id="skipBtn">Skip</button>
-      <button class="btn-primary" id="addPhotoBtn">Add to Gallery</button>
-    </div>
-  </div>
-</div>
-
 <!-- ── LIGHTBOX ── -->
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightboxClose">×</button>
@@ -1083,164 +875,8 @@
   }, { threshold: 0.15 });
   fadeEls.forEach(el => fadeObserver.observe(el));
 
-  // ── About image upload ──
-  const aboutImageUpload = document.getElementById('aboutImageUpload');
-  const aboutImageInput = document.getElementById('aboutImageInput');
-  const aboutImage = document.getElementById('aboutImage');
-  aboutImageUpload.addEventListener('click', () => aboutImageInput.click());
-  aboutImageInput.addEventListener('change', e => {
-    const file = e.target.files[0]; if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => { aboutImage.src = ev.target.result; };
-    reader.readAsDataURL(file);
-  });
-
-  // ── Gallery: Delete ──
+  // ── Gallery ──
   const gallery = document.getElementById('gallery');
-  gallery.addEventListener('click', e => {
-    const btn = e.target.closest('.delete-btn');
-    if (!btn) return;
-    e.stopPropagation();
-    const item = btn.closest('.photo-item');
-    item.style.transition = 'opacity 0.25s, transform 0.25s';
-    item.style.opacity = '0';
-    item.style.transform = 'scale(0.95)';
-    setTimeout(() => item.remove(), 260);
-  });
-
-  // ── Gallery: Drag to reorder ──
-  let dragSrc = null;
-
-  function makeDraggable(el) {
-    el.setAttribute('draggable', 'true');
-
-    el.addEventListener('dragstart', e => {
-      dragSrc = el;
-      el.classList.add('dragging');
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/plain', '');
-    });
-    el.addEventListener('dragend', () => {
-      el.classList.remove('dragging');
-      gallery.querySelectorAll('.photo-item').forEach(i => {
-        i.classList.remove('drag-over-top', 'drag-over-bottom');
-      });
-      dragSrc = null;
-    });
-    el.addEventListener('dragover', e => {
-      e.preventDefault();
-      if (!dragSrc || dragSrc === el) return;
-      e.dataTransfer.dropEffect = 'move';
-      const rect = el.getBoundingClientRect();
-      const midY = rect.top + rect.height / 2;
-      el.classList.remove('drag-over-top', 'drag-over-bottom');
-      el.classList.add(e.clientY < midY ? 'drag-over-top' : 'drag-over-bottom');
-    });
-    el.addEventListener('dragleave', () => {
-      el.classList.remove('drag-over-top', 'drag-over-bottom');
-    });
-    el.addEventListener('drop', e => {
-      e.preventDefault();
-      if (!dragSrc || dragSrc === el) return;
-      const rect = el.getBoundingClientRect();
-      if (e.clientY >= rect.top + rect.height / 2) {
-        el.after(dragSrc);
-      } else {
-        gallery.insertBefore(dragSrc, el);
-      }
-      el.classList.remove('drag-over-top', 'drag-over-bottom');
-    });
-  }
-  gallery.querySelectorAll('.photo-item').forEach(makeDraggable);
-
-  // ── Upload queue ──
-  let queue = [], qIdx = 0;
-  const fileInput = document.getElementById('fileInput');
-  const modal = document.getElementById('uploadModal');
-
-  document.getElementById('browseBtn').addEventListener('click', () => fileInput.click());
-  document.getElementById('uploadNavBtn').addEventListener('click', e => {
-    e.preventDefault(); fileInput.click();
-  });
-
-  fileInput.addEventListener('change', e => {
-    if (e.target.files.length) startQueue(Array.from(e.target.files));
-  });
-
-  // Global drag & drop
-  document.addEventListener('dragover', e => e.preventDefault());
-  document.addEventListener('drop', e => {
-    e.preventDefault();
-    const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-    if (files.length) startQueue(files);
-  });
-
-  const zone = document.getElementById('upload-section');
-  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
-  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
-  zone.addEventListener('drop', () => zone.classList.remove('drag-over'));
-
-  function startQueue(files) { queue = files; qIdx = 0; showNext(); }
-
-  function showNext() {
-    if (qIdx >= queue.length) { closeModal(); return; }
-    const reader = new FileReader();
-    reader.onload = e => {
-      document.getElementById('modalPreview').src = e.target.result;
-      document.getElementById('modalPreview').classList.add('visible');
-      document.getElementById('photoTitle').value = '';
-      document.getElementById('photoCategory').value = '';
-      document.getElementById('queueInfo').textContent =
-        queue.length > 1 ? `Photo ${qIdx + 1} of ${queue.length}` : '';
-      modal.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    };
-    reader.readAsDataURL(queue[qIdx]);
-  }
-
-  document.getElementById('addPhotoBtn').addEventListener('click', () => {
-    const title = document.getElementById('photoTitle').value.trim() || 'Untitled';
-    const cat = document.getElementById('photoCategory').value.trim() || 'Photography';
-    addPhoto(document.getElementById('modalPreview').src, title, cat);
-    qIdx++; showNext();
-  });
-
-  document.getElementById('skipBtn').addEventListener('click', () => { qIdx++; showNext(); });
-
-  document.getElementById('photoTitle').addEventListener('keydown', e => {
-    if (e.key === 'Enter') document.getElementById('addPhotoBtn').click();
-  });
-
-  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-
-  function closeModal() {
-    modal.classList.remove('open');
-    document.body.style.overflow = '';
-    fileInput.value = '';
-    queue = [];
-  }
-
-  function addPhoto(src, title, category) {
-    const el = document.createElement('div');
-    el.className = 'photo-item';
-    el.setAttribute('data-title', title);
-    el.setAttribute('data-category', category.toLowerCase());
-    el.style.cssText = 'opacity:0;transform:translateY(8px);transition:opacity 0.4s,transform 0.4s;';
-    el.innerHTML = `
-      <img src="${src}" alt="${title}"/>
-      <div class="photo-overlay">
-        <span class="photo-overlay-title">${title}</span>
-        <span class="photo-overlay-cat">${category}</span>
-      </div>
-      <button class="delete-btn" title="Remove">×</button>
-      <span class="drag-hint">Drag to reorder</span>`;
-    gallery.prepend(el);
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      el.style.opacity = '1'; el.style.transform = 'translateY(0)';
-    }));
-    makeDraggable(el);
-    bindLightbox(el);
-  }
 
   // ── Lightbox ──
   const lightbox = document.getElementById('lightbox');
@@ -1251,8 +887,6 @@
 
   function bindLightbox(item) {
     item.addEventListener('click', e => {
-      if (e.target.closest('.delete-btn')) return;
-      if (item.classList.contains('dragging')) return;
       const items = getItems();
       lightboxIndex = items.indexOf(item);
       lightboxImg.src = item.querySelector('img').src;
@@ -1283,8 +917,6 @@
       if (e.key === 'Escape') closeLightbox();
       if (e.key === 'ArrowLeft') document.getElementById('lightboxPrev').click();
       if (e.key === 'ArrowRight') document.getElementById('lightboxNext').click();
-    } else if (modal.classList.contains('open') && e.key === 'Escape') {
-      closeModal();
     }
   });
 
