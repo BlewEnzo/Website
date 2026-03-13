@@ -987,3 +987,15 @@
       btn.textContent = origText;
       btn.style.background = '';
       btn.style.opacity = '1';
+      btn.disabled = false;
+      contactStatus.textContent = 'Failed to send — please try again or email me directly.';
+      contactStatus.className = 'contact-status error';
+    }
+  });
+
+  // Init
+  updateNav();
+})();
+</script>
+</body>
+</html>
